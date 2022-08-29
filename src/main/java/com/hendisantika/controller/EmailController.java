@@ -3,6 +3,11 @@ package com.hendisantika.controller;
 import com.hendisantika.config.EmailConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -21,5 +26,28 @@ import org.springframework.web.bind.annotation.RestController;
 public class EmailController {
     private final EmailConfig emailConfig;
 
+    @GetMapping("/sendEmail")
+    public ResponseEntity<String> sendEmail() {
+        // create mail sender
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost(emailConfig.getHost());
+        mailSender.setPort(emailConfig.getPort());
+        mailSender.setUsername(emailConfig.getUsername());
+        mailSender.setPassword(emailConfig.getPassword());
 
+        // create an email instance
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        // email.getEmail()
+        mailMessage.setFrom("Aktivasi anaonline <no-reply@anaonline.id>");
+        mailMessage.setTo("hendi@yopmail.com");
+        // email.getSubject()
+        mailMessage.setSubject("SMTP - E-Voting Token Instruction Test subject");
+        // email.getMessageText()
+        mailMessage.setText("Test text !!!\nSend Email using SMTP - E-Voting Token Instruction Test subject");
+
+        // send mail
+        mailSender.send(mailMessage);
+        log.info("Email already sent via SMTP! Please check your inbox for order confirmation!");
+        return new ResponseEntity<>("Please check your inbox!", HttpStatus.OK);
+    }
 }
