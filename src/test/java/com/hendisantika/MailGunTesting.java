@@ -1,5 +1,6 @@
 package com.hendisantika;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
@@ -28,6 +29,12 @@ public class MailGunTesting {
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
 
+        System.out.println(generatedString);
+    }
+
+    @Test
+    public void givenUsingApache_whenGeneratingRandomAlphanumericString_thenCorrect() {
+        String generatedString = RandomStringUtils.randomAlphanumeric(8);
         System.out.println(generatedString);
     }
 }
