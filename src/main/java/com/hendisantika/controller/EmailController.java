@@ -71,4 +71,25 @@ public class EmailController {
         return new ResponseEntity<>("Please check your inbox!", HttpStatus.OK);
     }
 
+    @GetMapping("/sendEmail3")
+    public ResponseEntity<String> sendEmail3() {
+        // create mail sender
+        Configuration configuration = new Configuration()
+                .domain(emailConfig.getDomain())
+                .apiKey(emailConfig.getApiKey())
+                .from(emailConfig.getFrom(), emailConfig.getFromEmail());
+
+        Mail.using(configuration)
+                .to("hendi@yopmail.com")
+                .subject("API KEY - This is the subject")
+                .template("testing")
+                .parameter("v:fullName", "Uzumaki Naruto")
+                .text("Hello world!")
+                .build()
+                .send();
+
+        log.info("Email with Template already sent via API KEY! Please check your inbox for order confirmation!");
+        return new ResponseEntity<>("Please check your inbox!", HttpStatus.OK);
+    }
+
 }
