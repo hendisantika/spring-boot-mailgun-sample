@@ -32,4 +32,17 @@ public class EmailConfig {
 
     @Value("${spring.mail.password}")
     private String password;
+
+    @Value("${mailgun.domain}")
+    private String domain;
+
+    @Value("${mailgun.apiKey}")
+    private String apiKey;
+
+    @Value("${mailgun.from}")
+    private String from;
+
+    @Value("${mailgun.fromEmail}")
+    private String fromEmail;
+
 }

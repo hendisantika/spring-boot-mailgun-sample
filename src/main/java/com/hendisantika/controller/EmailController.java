@@ -3,6 +3,8 @@ package com.hendisantika.controller;
 import com.hendisantika.config.EmailConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.sargue.mailgun.Configuration;
+import net.sargue.mailgun.Mail;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
@@ -50,4 +52,23 @@ public class EmailController {
         log.info("Email already sent via SMTP! Please check your inbox for order confirmation!");
         return new ResponseEntity<>("Please check your inbox!", HttpStatus.OK);
     }
+
+    @GetMapping("/sendEmail2")
+    public ResponseEntity<String> sendEmail2() {
+        // create mail sender
+        Configuration configuration = new Configuration()
+                .domain(emailConfig.getDomain())
+                .apiKey(emailConfig.getApiKey())
+                .from(emailConfig.getFrom(), emailConfig.getFromEmail());
+
+        Mail.using(configuration)
+                .to("hendi@yopmail.com")
+                .subject("API KEY - This is the subject")
+                .text("Hello world!\nSend Email using API KEY - This is the subject")
+                .build()
+                .send();
+        log.info("Email already sent via API KEY! Please check your inbox for order confirmation!");
+        return new ResponseEntity<>("Please check your inbox!", HttpStatus.OK);
+    }
+
 }
