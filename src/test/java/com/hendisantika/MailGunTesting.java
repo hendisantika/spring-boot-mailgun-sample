@@ -4,6 +4,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Created by IntelliJ IDEA.
@@ -36,5 +37,30 @@ public class MailGunTesting {
     public void givenUsingApache_whenGeneratingRandomAlphanumericString_thenCorrect() {
         String generatedString = RandomStringUtils.randomAlphanumeric(8);
         System.out.println(generatedString);
+    }
+
+    static String usingUUID() {
+        UUID randomUUID = UUID.randomUUID();
+        return randomUUID.toString().replaceAll("-", "");
+    }
+
+    public static String generateRandomPassword(int len) {
+        String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%&";
+        Random rnd = new Random();
+        StringBuilder sb = new StringBuilder(len);
+        for (int i = 0; i < len; i++)
+            sb.append(chars.charAt(rnd.nextInt(chars.length())));
+        return sb.toString();
+    }
+
+    @Test
+    public void givenUsingUUID_whenGeneratingRandomAlphanumericString_thenCorrect() {
+        String randomString = usingUUID();
+        System.out.println("Random string is: " + randomString);
+        System.out.println("Random string of 8 characters is: " + randomString.substring(0, 8));
+
+        for (int i = 0; i < 10; i++) {
+            System.out.println("String " + i + " : " + generateRandomPassword(8));
+        }
     }
 }
